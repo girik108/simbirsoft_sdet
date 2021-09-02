@@ -1,13 +1,8 @@
 import time
 import os
-import pytest
-
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 from dotenv import load_dotenv
+import allure
 
 from pages.yandex_mail_page import YaMailPage
 
@@ -17,10 +12,12 @@ load_dotenv()
 MAIL_LOGIN = os.getenv('YA_MAIL_LOGIN')
 MAIL_PASS = os.getenv('YA_MAIL_PASS')
 MESSAGES_COUNT = int(os.getenv('MESSAGES_COUNT'))
-SURNAME=os.getenv('SURNAME')
+SURNAME = os.getenv('SURNAME')
 
 
 class TestYandexMail():
+
+    @allure.feature('Тест почты Yandex')
     def test_yandex_mail(self, browser):
         link = 'https://mail.yandex.ru/'
         page = YaMailPage(browser, link)
@@ -34,9 +31,7 @@ class TestYandexMail():
         page.search_messages()
 
         assert len(page.messages) == MESSAGES_COUNT
-
-
+        
         page.send_letter(SURNAME)
 
-        # После выполнения всех действий мы должны не забыть закрыть окно браузера
-        time.sleep(10)
+        time.sleep(5)

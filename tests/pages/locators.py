@@ -6,9 +6,11 @@ class YaMailPageLocators():
     LOGIN_AREA = (By.ID, 'passp-field-login')
     LOGIN_BUTTON = (By.ID, 'passp:sign-in')
     PASSWORD_AREA = (By.ID, 'passp-field-passwd')
-    TEST_MESSAGES = (By.XPATH, '//span[@class="mail-MessageSnippet-Item mail-MessageSnippet-Item_subject"]/span[contains(text(), "Simbirsoft Тестовое задание")]')
+    TEST_MESSAGES = (By.XPATH, '//span[@class="mail-MessageSnippet-Item mail-MessageSnippet-Item_subject"]/span[text()="Simbirsoft Тестовое задание"]')
     FORWARD_BUTTON = (By.XPATH, '//span[@class="mail-Toolbar-Item-Text js-toolbar-item-title js-toolbar-item-title-reply"]')
-    USER_NAME = (By.CSS_SELECTOR, 'span.user-account__name:nth-child(1)')
+    USER_NAME = (By.CSS_SELECTOR, '.user-account_left-name')
+    
+    
     USER_EMAIL = (By.CSS_SELECTOR, 'span.user-account__subname:nth-child(1)')
     WRITE_MSG_BUTTON = (By.CSS_SELECTOR, 'span.mail-ComposeButton-Text')
 
