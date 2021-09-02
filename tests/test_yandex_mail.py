@@ -9,44 +9,34 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from dotenv import load_dotenv
 
-from pages.yandex_mail_page import YandexMailPage
+from pages.yandex_mail_page import YaMailPage
 
 
 load_dotenv()
 
-YA_MAIL_LOGIN = os.getenv('YA_MAIL_LOGIN')
-YA_MAIL_PASS = os.getenv('YA_MAIL_PASS')
+MAIL_LOGIN = os.getenv('YA_MAIL_LOGIN')
+MAIL_PASS = os.getenv('YA_MAIL_PASS')
+MESSAGES_COUNT = int(os.getenv('MESSAGES_COUNT'))
+SURNAME=os.getenv('SURNAME')
 
 
 class TestYandexMail():
     def test_yandex_mail(self, browser):
-        browser.get('https://mail.yandex.ru/')
+        link = 'https://mail.yandex.ru/'
+        page = YaMailPage(browser, link)
+        page.open()
+        page.go_to_login_page()
 
-        login_button = browser.find_element(By.LINK_TEXT, 'Войти')
-        login_button.click()
+        assert page.get_title() == 'Авторизация', 'Должна открыться страница авторизации'
 
-        login_area = browser.find_element(By.ID, 'passp-field-login')
-        login_area.send_keys(YA_MAIL_LOGIN)
+        page.login_to_email(MAIL_LOGIN, MAIL_PASS)
 
-        login_button = browser.find_element(By.ID, 'passp:sign-in')
-        login_button.click()
+        page.search_messages()
 
-        password_area = browser.find_element(By.ID, 'passp-field-passwd')
-        password_area.send_keys(os.getenv('YA_MAIL_PASS'))
+        assert len(page.messages) == MESSAGES_COUNT
 
-        login_button = browser.find_element(By.ID, 'passp:sign-in')
-        login_button.click()
-        # # Найдем кнопку, которая отправляет введенное решение
-        # submit_button = driver.find_element_by_css_selector(".submit-submission")
 
-        # # Скажем драйверу, что нужно нажать на кнопку. После этой команды мы должны увидеть сообщение о правильном ответе
-        # submit_button.click()
+        page.send_letter(SURNAME)
 
-        ali_messages = browser.find_elements(
-            By.XPATH, '//span[@class="mail-MessageSnippet-Item mail-MessageSnippet-Item_subject"]/span[contains(text(), "Simbirsoft Тестовое задание")]')
-        assert len(ali_messages) == 3, 'Wrong email count'
-
-        message = ali_messages[0]
-        message.click()
         # После выполнения всех действий мы должны не забыть закрыть окно браузера
-        time.sleep(3)
+        time.sleep(10)
