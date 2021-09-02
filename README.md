@@ -35,5 +35,3 @@ pytest -s -v --alluredir=allure_results  tests/test_yandex_mail.py
 
 * [github.com/girik108](https://github.com/girik108)
 * [Почта](mailto:gimatovig@yandex.ru)
-
-Проект запущен по адресу http://foodgram.gimatov.gq/
