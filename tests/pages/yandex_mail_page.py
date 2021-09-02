@@ -28,7 +28,7 @@ class YaMailPage(BasePage):
 
     def search_messages(self):
         self.messages = self.browser.find_elements(
-            *YaMailPageLocators.TEST_MESSAGES)
+            *YaMailPageLocators.TASK_MESSAGES)
 
     def send_letter(self, surname):
         account_menu = self.browser.find_element(*YaMailPageLocators.USER_NAME)
